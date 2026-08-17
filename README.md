@@ -78,3 +78,12 @@ Ensure your character assets are placed in `assets/avatar/prototype/` with the f
 
 ## 🔒 Security Note
 This application never transmits raw biometric data or face mesh points. All identity verification is handled through cryptographic hashes and zero-knowledge principles, ensuring that children's data remains private and sovereign on their own devices.
+
+---
+
+## 📄 License & Commercial Inquiries
+
+Copyright (c) 2026 Estelle Coetzee / Ora (`jilldotai@gmail.com`). All Rights Reserved.
+
+This software is distributed under a **Commercial and API Use License**. Commercial use, enterprise integration, or redistribution is permitted strictly via a **purchased commercial license** or through **authorized API calling / subscription**. See the [LICENSE](LICENSE) file for complete details or contact `jilldotai@gmail.com` for licensing and API access.
+

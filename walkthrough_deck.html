@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ora - XPRIZE / Pitch Video Presentation Deck (2:45 Walkthrough)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f293d;
+      --accent-cyan: #00f2fe;
+      --accent-blue: #4facfe;
+      --accent-emerald: #10b981;
+      --accent-violet: #8b5cf6;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Control Bar */
+    header {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      color: #000;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+    }
+
+    .timer-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      border: 1px solid var(--card-border);
+    }
+
+    .timer-display {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      letter-spacing: 1px;
+    }
+
+    .timer-btn {
+      background: #1f293d;
+      border: 1px solid #374151;
+      color: #fff;
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .timer-btn:hover {
+      background: #374151;
+    }
+
+    .timer-btn.active {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .section-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-dot {
+      background: #1f293d;
+      color: var(--text-muted);
+      border: 1px solid #374151;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-dot:hover, .nav-dot.active {
+      background: #2563eb;
+      color: #fff;
+      border-color: #3b82f6;
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      display: flex;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 1.5rem 2rem;
+      gap: 1.5rem;
+    }
+
+    .stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .teleprompter-sidebar {
+      width: 440px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 5rem;
+      max-height: calc(100vh - 6.5rem);
+    }
+
+    .teleprompter-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .teleprompter-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .teleprompter-body {
+      padding: 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .cue-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--text-dim);
+      padding: 0.85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .cue-card.active {
+      background: rgba(37, 99, 235, 0.15);
+      border-left-color: var(--accent-cyan);
+      box-shadow: inset 0 0 0 1px rgba(0, 242, 254, 0.2);
+    }
+
+    .cue-time {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    .cue-heading {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .cue-script {
+      color: var(--text-main);
+      font-size: 0.92rem;
+    }
+
+    .cue-script strong {
+      color: var(--accent-cyan);
+    }
+
+    /* Presentation Slide Panels */
+    .slide-panel {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .slide-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      background: rgba(0, 242, 254, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .slide-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: #fff;
+      line-height: 1.25;
+    }
+
+    .slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .feature-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .feature-box.highlight {
+      border-color: rgba(0, 242, 254, 0.4);
+      background: rgba(0, 242, 254, 0.03);
+    }
+
+    .feature-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feature-desc {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    /* Architecture Visual Diagram */
+    .diagram-container {
+      background: #0d131f;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .diagram-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      border-bottom: 1px dashed #1e293b;
+    }
+
+    .diagram-step:last-child {
+      border-bottom: none;
+    }
+
+    .diagram-badge {
+      min-width: 90px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.35rem;
+      border-radius: 6px;
+    }
+
+    .badge-tee { background: #1e1b4b; color: #a5b4fc; border: 1px solid #4338ca; }
+    .badge-voprf { background: #064e3b; color: #6ee7b7; border: 1px solid #059669; }
+    .badge-ladder { background: #451a03; color: #fcd34d; border: 1px solid #d97706; }
+    .badge-mesh { background: #172554; color: #93c5fd; border: 1px solid #2563eb; }
+
+    /* Code View Tabs */
+    .code-container {
+      background: #0b0f19;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .code-tabs {
+      display: flex;
+      background: #070a12;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .code-tab {
+      padding: 0.5rem 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-right: 1px solid #1e293b;
+      background: transparent;
+      border-top: 2px solid transparent;
+    }
+
+    .code-tab.active {
+      color: var(--accent-cyan);
+      background: #0b0f19;
+      border-top-color: var(--accent-cyan);
+    }
+
+    .code-content {
+      padding: 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      overflow-x: auto;
+      max-height: 280px;
+    }
+
+    .kw { color: #f472b6; }
+    .fn { color: #60a5fa; }
+    .str { color: #34d399; }
+    .num { color: #fbbf24; }
+    .comment { color: #64748b; font-style: italic; }
+
+    /* Key metric pills */
+    .metrics-bar {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .metric-card {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation & Timer -->
+  <header>
+    <div class="brand">
+      <span class="logo-badge">ORA</span>
+      <span class="brand-title">Architecture & System Walkthrough</span>
+    </div>
+
+    <div class="timer-container">
+      <span class="timer-display" id="timerDisplay">00:00</span>
+      <button class="timer-btn" id="startBtn" onclick="toggleTimer()">▶ START RECORDING</button>
+      <button class="timer-btn" onclick="resetTimer()">↺ RESET</button>
+    </div>
+
+    <div class="section-nav">
+      <button class="nav-dot active" onclick="goToSlide(0)">1. Problem & Vision (0:00)</button>
+      <button class="nav-dot" onclick="goToSlide(1)">2. Architecture & Crypto (0:30)</button>
+      <button class="nav-dot" onclick="goToSlide(2)">3. Code Walkthrough (1:15)</button>
+      <button class="nav-dot" onclick="goToSlide(3)">4. Agentic Layer (2:00)</button>
+      <button class="nav-dot" onclick="goToSlide(4)">5. Summary & Viability (2:30)</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Stage: Interactive Slide / Visual Content -->
+    <div class="stage">
+
+      <!-- SLIDE 1: Problem & Vision (0:00 - 0:30) -->
+      <div class="slide-panel active" id="slide-0">
+        <div class="slide-tag">⏱ 0:00 – 0:30 • VISION & PROBLEM STATEMENT</div>
+        <h1 class="slide-title">The Child Privacy & Social Liability Crisis</h1>
+        <p class="slide-subtitle">Replacing centralized surveillance with on-device cryptographic sovereignty.</p>
+
+        <div class="grid-2">
+          <div class="feature-box" style="border-left: 4px solid var(--danger);">
+            <div class="feature-title">❌ Legacy Centralized Model</div>
+            <div class="feature-desc">
+              • Centralized databases storing raw biometric data and minor PII.<br>
+              • Massive vulnerability to leaks, stalking, and systemic deepfake cloning.<br>
+              • Reactive content moderation failing to protect children at source.
+            </div>
+          </div>
+          <div class="feature-box highlight" style="border-left: 4px solid var(--accent-cyan);">
+            <div class="feature-title">🛡 Ora Decentralized Paradigm</div>
+            <div class="feature-desc">
+              • <strong>Zero Biometric Transit</strong>: Raw faces and audio never leave the user's hardware.<br>
+              • <strong>Hardware Enclave Security</strong>: Cryptographic root-of-trust bound to on-chip TEE / StrongBox.<br>
+              • <strong>Privacy-First VTubing</strong>: Real-time procedural avatar projection replacing real video feeds.
+            </div>
+          </div>
+        </div>
+
+        <div class="metrics-bar">
+          <div class="metric-card">
+            <div class="metric-value">0 bytes</div>
+            <div class="metric-label">Biometric Data Sent Off-Device</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">100%</div>
+            <div class="metric-label">Hardware-Bound Content Verification</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">60 FPS</div>
+            <div class="metric-label">Low-Latency On-Device Deformation</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Architecture & Cryptography (0:30 - 1:15) -->
+      <div class="slide-panel" id="slide-1">
+        <div class="slide-tag">⏱ 0:30 – 1:15 • ARCHITECTURE & CRYPTOGRAPHY</div>
+        <h1 class="slide-title">FIG. 1 / FIG. 5 Patent Cryptographic System</h1>
+        <p class="slide-subtitle">4-3-2 Key Governance, Guardian Verification Ladder, and Privacy Pass Zero-Knowledge Proofs.</p>
+
+        <div class="diagram-container">
+          <div class="diagram-step">
+            <div class="diagram-badge badge-ladder">4-3-2 Governance</div>
+            <div class="feature-desc">
+              <strong>Decentralized Multi-Key Custody</strong>: 4 Distributed Key Shards across Secure Enclave, Guardian Key, Cold Key, and Escrow. 3 required for identity recovery; 2 required for high-risk permissions.
+            </div>
+          </div>
+          <div class="diagram-step">
+            <div class="diagram-badge badge-tee">Hardware TEE</div>
+            <div class="feature-desc">
+              <strong>Non-Exportable Keystore Root</strong>: Generates elliptic curve keypairs in Android StrongBox / KeyStore. Content is signed instantaneously during frame composition with hardware-attested authenticity.
+            </div>
+          </div>
+          <div class="diagram-step">
+            <div class="diagram-badge badge-voprf">VOPRF / ZKP</div>
+            <div class="feature-desc">
+              <strong>Privacy Pass Anonymous Tokens</strong>: Verifiable Oblivious Pseudorandom Function unlinks network uploads from identity, preventing ISPs and aggregators from tracking child social traffic.
+            </div>
+          </div>
+          <div class="diagram-step">
+            <div class="diagram-badge badge-mesh">ZCAP-LD</div>
+            <div class="feature-desc">
+              <strong>Capability-Based Delegation</strong>: Fine-grained, cryptographically attenuated capability tokens grant temporary parental approval without transferring parent credentials.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: Code Walkthrough (1:15 - 2:00) -->
+      <div class="slide-panel" id="slide-2">
+        <div class="slide-tag">⏱ 1:15 – 2:00 • CODEBASE & PIPELINE WALKTHROUGH</div>
+        <h1 class="slide-title">On-Device Tracking & Secure Enclave Pipeline</h1>
+        <p class="slide-subtitle">CameraX / MediaPipe Face Blendshapes, One Euro Filtering, and Hardware Enclave Video Signer.</p>
+
+        <div class="code-container">
+          <div class="code-tabs">
+            <button class="code-tab active" onclick="switchCode('code-tracking')">CascadingEffortAnalyzer.kt / Tracker</button>
+            <button class="code-tab" onclick="switchCode('code-mesh')">MeshDeformer & Physics.dart</button>
+            <button class="code-tab" onclick="switchCode('code-enclave')">EnclaveService & VideoSigner</button>
+          </div>
+
+          <pre class="code-content" id="code-tracking"><code><span class="comment">// Real-time CameraX frame ingestion & MediaPipe blendshape extraction</span>
+<span class="kw">class</span> <span class="fn">CascadingEffortAnalyzer</span>(
+    <span class="kw">private val</span> context: Context,
+    <span class="kw">private val</span> oneEuroFilter: OneEuroFilter
+) : ImageAnalysis.Analyzer {
+
+    <span class="kw">override fun</span> <span class="fn">analyze</span>(imageProxy: ImageProxy) {
+        <span class="kw">val</span> landmarks = faceDetector.process(imageProxy)
+        <span class="kw">val</span> rawBlendshapes = extractBlendshapes(landmarks)
+        
+        <span class="comment">// Eliminate jitter while maintaining 60fps responsiveness</span>
+        <span class="kw">val</span> smoothed = oneEuroFilter.filter(rawBlendshapes, imageProxy.imageInfo.timestamp)
+        
+        <span class="comment">// Anonymized coordinates sent directly to GPU canvas deformation</span>
+        avatarRenderer.updateState(smoothed.mouthOpen, smoothed.eyeBlink, smoothed.headPose)
+        imageProxy.close()
+    }
+}</code></pre>
+
+          <pre class="code-content" id="code-mesh" style="display:none;"><code><span class="comment">// 2D GPU Mesh Deformation & Dynamic Pendulum Hair Physics</span>
+<span class="kw">class</span> <span class="fn">MeshDeformer</span> {
+  <span class="kw">void</span> <span class="fn">deformMouthMesh</span>(Canvas canvas, Float32List vertices, <span class="kw">double</span> speechAmplitude) {
+    <span class="comment">// Direct canvas.drawVertices execution for ultra-low latency</span>
+    <span class="kw">final</span> deformedPoints = computeDeformedGrid(vertices, speechAmplitude);
+    canvas.drawVertices(Vertices(VertexMode.triangles, deformedPoints), BlendMode.srcOver, paint);
+  }
+
+  <span class="kw">void</span> <span class="fn">applyPendulumPhysics</span>(<span class="kw">double</span> headAngularVelocity) {
+    hairPhysicsRig.applyTorque(headAngularVelocity * <span class="num">0.85</span>);
+    hairPhysicsRig.stepSimulation(damping: <span class="num">0.92</span>, spring: <span class="num">0.45</span>);
+  }
+}</code></pre>
+
+          <pre class="code-content" id="code-enclave" style="display:none;"><code><span class="comment">// Hardware Keystore / Secure Enclave cryptographic video signing</span>
+<span class="kw">class</span> <span class="fn">EnclaveService</span> {
+  <span class="kw">Future</span>&lt;Uint8List&gt; <span class="fn">signRecordedSegment</span>(Uint8List videoDigest) <span class="kw">async</span> {
+    <span class="kw">final</span> keyPair = <span class="kw">await</span> getKeyStoreRoot(); <span class="comment">// Hardware StrongBox backed</span>
+    <span class="kw">final</span> signature = <span class="kw">await</span> keyPair.signSha256(videoDigest);
+    
+    <span class="comment">// Attaches cryptographic proof of live on-device generation</span>
+    <span class="kw">return</span> attachHardwareAttestation(signature, timestamp: DateTime.now());
+  }
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Agentic Layer & Growth Engine (2:00 - 2:30) -->
+      <div class="slide-panel" id="slide-3">
+        <div class="slide-tag">⏱ 2:00 – 2:30 • AGENTIC LAYER & AURA BOOSTER</div>
+        <h1 class="slide-title">Autonomous Growth & On-Device Safety Agent</h1>
+        <p class="slide-subtitle">AuraBooster_MC: Automated viral distribution paired with client-side zero-leak monitoring.</p>
+
+        <div class="grid-2">
+          <div class="feature-box">
+            <div class="feature-title">🤖 AuraBooster Autonomous Agent</div>
+            <div class="feature-desc">
+              • Automated multi-platform content scheduling and metadata optimization.<br>
+              • Audience engagement workflows executing asynchronously without exposing child creator accounts.<br>
+              • Algorithmic distribution loop driving zero-cost organic viral loops.
+            </div>
+          </div>
+          <div class="feature-box highlight">
+            <div class="feature-title">🛡 Edge Behavioral Safety Monitor</div>
+            <div class="feature-desc">
+              • Client-side neural classifier analyzing chat interactions and prompts locally.<br>
+              • Immediate quarantine of adversarial grooming or toxicity patterns.<br>
+              • Zero telemetry transmission: alerts trigger parent guardian escalation on-device.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: Summary & Viability (2:30 - 2:45) -->
+      <div class="slide-panel" id="slide-4">
+        <div class="slide-tag">⏱ 2:30 – 2:45 • SUMMARY & BUSINESS VIABILITY</div>
+        <h1 class="slide-title">Zero-Liability Architecture & Ecosystem Scale</h1>
+        <p class="slide-subtitle">Near-zero infrastructure OPEX, complete regulatory compliance, and Phase 2 SDK expansion.</p>
+
+        <div class="grid-3">
+          <div class="feature-box">
+            <div class="feature-title">📉 Zero Liability</div>
+            <div class="feature-desc">No centralized PII or biometric storage eliminates COPPA/GDPR-K breach exposure.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-title">⚡ Near-Zero OPEX</div>
+            <div class="feature-desc">Decentralized edge compute shifts 95% of processing onto user devices.</div>
+          </div>
+          <div class="feature-box highlight">
+            <div class="feature-title">🌐 "Auth with Ora" SDK</div>
+            <div class="feature-desc">Phase 2 B2B expansion enabling 3rd-party kids apps to authenticate sovereignly.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Sidebar: Synchronized Teleprompter Script -->
+    <div class="teleprompter-sidebar">
+      <div class="teleprompter-header">
+        <div class="teleprompter-title">
+          <span>🎙 Script Teleprompter</span>
+        </div>
+        <span style="font-size:0.75rem; color:var(--text-muted);">2:45 Total Time</span>
+      </div>
+
+      <div class="teleprompter-body" id="teleprompterBody">
+        
+        <!-- Cue 1 -->
+        <div class="cue-card active" id="cue-0" onclick="goToSlide(0)">
+          <div class="cue-time">0:00 – 0:30 • Vision & Problem</div>
+          <div class="cue-heading">The Child Privacy Problem</div>
+          <div class="cue-script">
+            "Legacy social platforms are fundamentally broken for children. They harvest centralized biometric data and rely on reactive moderation, creating massive data breach liabilities and exploitation risks. <strong>Ora</strong> is a privacy-first, decentralized social ecosystem where identity never leaves the user's device—enabling safe VTubing and sovereign digital identity."
+          </div>
+        </div>
+
+        <!-- Cue 2 -->
+        <div class="cue-card" id="cue-1" onclick="goToSlide(1)">
+          <div class="cue-time">0:30 – 1:15 • Architecture & Crypto</div>
+          <div class="cue-heading">4-3-2 Keys & Hardware ZKPs</div>
+          <div class="cue-script">
+            "Looking at our patent architecture diagrams in <strong>FIG. 1 and FIG. 5</strong>, Ora implements our proprietary <strong>4-3-2 Key Governance System</strong> and Guardian Verification Ladder. Private keys are generated inside the phone's <strong>Hardware Secure Enclave</strong>. We combine <strong>ZCAP-LD</strong> capability delegation with <strong>VOPRF Privacy Pass</strong> zero-knowledge tokens, making network traffic completely unlinkable from the minor's identity."
+          </div>
+        </div>
+
+        <!-- Cue 3 -->
+        <div class="cue-card" id="cue-2" onclick="goToSlide(2)">
+          <div class="cue-time">1:15 – 2:00 • Code Walkthrough</div>
+          <div class="cue-heading">CameraX, Mesh & TEE Signing</div>
+          <div class="cue-script">
+            "Here in our codebase: <code>CascadingEffortAnalyzer</code> drives our high-performance CameraX pipeline with MediaPipe face blendshapes, smoothed through a <strong>One Euro Filter</strong> for zero jitter. Coordinates project directly to our custom <strong>2D GPU Mesh Deformer</strong> with Live2D-inspired physics. Every video segment is signed at recording time by the hardware enclave, cryptographically proving origin without exposing biometric data."
+          </div>
+        </div>
+
+        <!-- Cue 4 -->
+        <div class="cue-card" id="cue-3" onclick="goToSlide(3)">
+          <div class="cue-time">2:00 – 2:30 • Agentic Layer</div>
+          <div class="cue-heading">AuraBooster & Edge Safety</div>
+          <div class="cue-script">
+            "In our <strong>AuraBooster_MC</strong> layer, autonomous marketing agents manage viral cross-platform distribution and content scheduling without exposing creator credentials. Concurrently, our on-device edge behavioral safety monitor runs client-side to detect and neutralize adversarial interactions in real time."
+          </div>
+        </div>
+
+        <!-- Cue 5 -->
+        <div class="cue-card" id="cue-4" onclick="goToSlide(4)">
+          <div class="cue-time">2:30 – 2:45 • Summary & Close</div>
+          <div class="cue-heading">Zero-Liability & Phase 2 Scale</div>
+          <div class="cue-script">
+            "By offloading compute to the edge, Ora achieves a <strong>zero-liability business model</strong> with near-zero cloud OPEX. In Phase 2, we are expanding with our <strong>'Auth with Ora' SDK</strong> to bring sovereign child safety to third-party digital ecosystems worldwide. Thank you."
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let isRunning = false;
+
+    const slideTimeline = [
+      { start: 0, end: 30, index: 0 },
+      { start: 30, end: 75, index: 1 },
+      { start: 75, end: 120, index: 2 },
+      { start: 120, end: 150, index: 3 },
+      { start: 150, end: 165, index: 4 }
+    ];
+
+    function goToSlide(index) {
+      currentSlide = index;
+      document.querySelectorAll('.slide-panel').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.nav-dot').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.cue-card').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+
+      const activeCue = document.getElementById(`cue-${index}`);
+      if (activeCue) {
+        activeCue.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('startBtn');
+      if (!isRunning) {
+        isRunning = true;
+        btn.textContent = '⏸ PAUSE';
+        btn.classList.add('active');
+        timerInterval = setInterval(() => {
+          timerSeconds++;
+          updateTimerDisplay();
+          syncSlideWithTimer(timerSeconds);
+        }, 1000);
+      } else {
+        isRunning = false;
+        btn.textContent = '▶ RESUME';
+        btn.classList.remove('active');
+        clearInterval(timerInterval);
+      }
+    }
+
+    function resetTimer() {
+      isRunning = false;
+      clearInterval(timerInterval);
+      timerSeconds = 0;
+      updateTimerDisplay();
+      const btn = document.getElementById('startBtn');
+      btn.textContent = '▶ START RECORDING';
+      btn.classList.remove('active');
+      goToSlide(0);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+      const s = (timerSeconds % 60).toString().padStart(2, '0');
+      document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    }
+
+    function syncSlideWithTimer(seconds) {
+      const match = slideTimeline.find(t => seconds >= t.start && seconds < t.end);
+      if (match && match.index !== currentSlide) {
+        goToSlide(match.index);
+      }
+    }
+
+    function switchCode(codeId) {
+      document.querySelectorAll('.code-content').forEach(el => el.style.display = 'none');
+      document.getElementById(codeId).style.display = 'block';
+      
+      const buttons = document.querySelectorAll('.code-tab');
+      buttons.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
